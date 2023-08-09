@@ -8,7 +8,7 @@ mod lang_items;
 mod sbi;
 mod syscall;
 mod trap;
-mod batch;
+pub(crate) mod batch;
 mod sync;
 
 use core::arch::global_asm;
