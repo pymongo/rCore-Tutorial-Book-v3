@@ -4,12 +4,12 @@
 
 #[macro_use]
 mod console;
+pub(crate) mod batch;
 mod lang_items;
 mod sbi;
+mod sync;
 mod syscall;
 mod trap;
-pub(crate) mod batch;
-mod sync;
 
 use core::arch::global_asm;
 
@@ -22,10 +22,8 @@ fn clear_bss() {
         fn ebss();
     }
     unsafe {
-        core::slice::from_raw_parts_mut(
-            sbss as usize as *mut u8, 
-            ebss as usize - sbss as usize,
-        ).fill(0);
+        core::slice::from_raw_parts_mut(sbss as usize as *mut u8, ebss as usize - sbss as usize)
+            .fill(0);
     }
 }
 
