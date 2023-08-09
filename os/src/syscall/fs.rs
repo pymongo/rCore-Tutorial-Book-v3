@@ -6,7 +6,8 @@ pub fn sys_write(fd: usize, buf: *const u8, len: usize) -> isize {
     match fd {
         FD_STDOUT => {}
         _ => {
-            panic!("Unsupported fd in sys_write!");
+            // panic!("Unsupported fd in sys_write!");
+            return -1;
         }
     }
 
