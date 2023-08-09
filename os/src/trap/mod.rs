@@ -34,17 +34,19 @@ pub fn trap_handler(cx: &mut TrapContext) -> &mut TrapContext {
             // dbg!(cx.sstatus);
             // check buf ptr address
             let a1 = cx.x[11];
-            // println!("if is sys_write ptr_arg={:x}", a1);
             // check sp
             let sp = cx.x[2];
             // println!("sp from ctx={:x}", sp);
             cx.sepc += 4;
             // only stack and .data is valid range
             
-            if a1 > sp || a1 < sp - USER_STACK_SIZE {
-                println!("invalid memory access, a1 = {:x}", a1);
+            cx.x[10] = if a1 > sp || a1 < sp - USER_STACK_SIZE {
+                println!("invalid memory access, a1 = {:x}, sp range is {:x}-{:x}", a1, sp-USER_STACK_SIZE,sp);
+                // unsafe { core::mem::transmute(-1isize) }
+                -1isize as usize
             } else {
-                cx.x[10] = syscall(cx.x[17], [cx.x[10], cx.x[11], cx.x[12]]) as usize;
+                println!("if is sys_write ptr_arg={:x}", a1);
+                syscall(cx.x[17], [cx.x[10], cx.x[11], cx.x[12]]) as usize
             }
         }
         Trap::Exception(Exception::StoreFault) |
