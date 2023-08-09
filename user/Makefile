@@ -33,7 +33,7 @@ build: clean pre binary
 	@$(foreach t, $(ELFS), cp $(t).elf $(BUILD_DIR)/elf/;)
 
 clean:
-	@cargo clean
-	@rm -rf $(BUILD_DIR)
+	# @cargo clean
+	# @rm -rf $(BUILD_DIR)
 
 .PHONY: elf binary build clean
